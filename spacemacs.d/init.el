@@ -42,7 +42,7 @@ values."
      sql
      markdown
      php
-     gtags
+     (gtags :variables gtags-enable-by-default t)
      (go :variables
          gofmt-command "goimports"
          go-use-gometalinter t
