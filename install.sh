@@ -1,4 +1,5 @@
 #!/bin/bash
+git submodule init
 git submodule update
 
 if [ ! -d "./oh-my-zsh/custom/plugins/zsh-completions" ];
