@@ -2,6 +2,7 @@
 
 # fix fcitx not working https://wiki.archlinux.org/index.php/Fcitx#Emacs
 export LC_CTYPE=zh_CN.UTF-8
+source ~/.customrc
 
 # Makes sure emacs daemon is running and opens the file in Emacs in
 # the terminal.

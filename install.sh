@@ -38,3 +38,9 @@ createLink $CURRENT_DIR/spacemacs.d $HOME/.spacemacs.d
 createLink $CURRENT_DIR/.tmux $HOME/.tmux
 createLink $CURRENT_DIR/.tmux/.tmux.conf $HOME/.tmux.conf
 cp $CURRENT_DIR/.tmux/.tmux.conf.local $HOME/.tmux.conf.local
+
+
+createLink $CURRENT_DIR/antigen $HOME/.antigen
+
+createLink $CURRENT_DIR/fonts $HOME/.fonts
+fc-cache -fv ~/.fonts

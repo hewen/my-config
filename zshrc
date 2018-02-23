@@ -77,6 +77,13 @@ source $ZSH/oh-my-zsh.sh
 # Customize to your needs...
 
 [[ -e ~/.http_proxy.sh ]] && source ~/.http_proxy.sh
+[[ -e ~/.antigen/antigen.zsh ]] && source ~/.antigen/antigen.zsh
 [[ -e ~/.customrc ]] && source ~/.customrc
 
-fpath+=$HOME/.zfunc
+antigen use oh-my-zsh
+antigen bundle arialdomartini/oh-my-git
+antigen theme arialdomartini/oh-my-git-themes oppa-lana-style
+
+antigen apply
+
+autoload -U promptinit
