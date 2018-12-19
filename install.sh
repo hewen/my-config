@@ -17,6 +17,11 @@ then
     git clone https://github.com/bobthecow/git-flow-completion ./oh-my-zsh/custom/plugins/git-flow-completion
 fi
 
+if [ ! -d ./oh-my-zsh/custom/plugins/zsh-autosuggestions ]
+then
+    git clone https://github.com/zsh-users/zsh-autosuggestions ~/.oh-my-zsh/custom/plugins/zsh-autosuggestions
+fi
+
 CURRENT_DIR=`pwd`
 
 createLink() {
