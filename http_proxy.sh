@@ -1,11 +1,6 @@
 function proxy_on() {
-    PIDS=$(ps -aux |grep lantern |grep -v grep | awk '{print $2}')
-    if [ "$PIDS" = "" ]; then
-        lantern >/dev/null 2>&1  &
-    fi
-
     export server=127.0.0.1
-    export port=45829
+    export port=1087
 
     export http_proxy="http://$server:$port/"
     export https_proxy=$http_proxy

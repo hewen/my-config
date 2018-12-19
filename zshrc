@@ -65,6 +65,12 @@ docker
 zsh-completions
 zsh-syntax-highlighting
 git-flow-completion
+osx
+kubectl
+exercism-completion
+rust
+cargo
+zsh-autosuggestions
 )
 
 if [[ -w $ZSH ]]; then
