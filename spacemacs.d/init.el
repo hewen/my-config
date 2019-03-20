@@ -606,6 +606,8 @@ before packages are loaded."
   (eval-after-load 'js2-mode
     '(add-hook 'js2-mode-hook #'add-node-modules-path))
 
+  (setq clojure-enable-fancify-symbols t)
+
   )
 
 ;; Do not write anything past this comment. This is where Emacs will
