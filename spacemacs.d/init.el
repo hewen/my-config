@@ -33,9 +33,11 @@ This function should only modify configuration layer settings."
 
    ;; List of configuration layers to load.
    dotspacemacs-configuration-layers
-   '(
+   '(perl5
+     vimscript
      (gtags :variables gtags-enable-by-default t)
-     syntax-checking
+     (syntax-checking :variables syntax-checking-enable-by-default nil
+                      syntax-checking-enable-tooltips nil)
      (auto-completion :variables
                       auto-completion-enable-snippets-in-popup t
                       ;; tab key to complete as much of common completion as possible
@@ -47,14 +49,19 @@ This function should only modify configuration layer settings."
                       )
 
      better-defaults
-     git
+     (git :variables
+          git-magit-status-fullscreen t
+          git-enable-github-support t
+          git-gutter-use-fringe t)
      csv
      web-beautify
      lsp
      nginx
      osx
      imenu-list
-     version-control
+     (version-control :variables
+                      version-control-diff-tool 'diff-hl
+                      version-control-global-margin t)
      org
      dash
      (wakatime :variables
@@ -69,8 +76,8 @@ This function should only modify configuration layer settings."
             c-c++-enable-rtags-support t)
      rust
      python
-     scala
-     javascript
+     (scala :variables scala-auto-start-ensime t)
+     (javascript :variables javascript-backend 'tern)
      html
      yaml
      windows-scripts
@@ -87,13 +94,22 @@ This function should only modify configuration layer settings."
             shell-default-height 30
             shell-default-position 'bottom)
      shell-scripts
-     (java :variables java-backend 'lsp)
+     java
      json
      graphviz
      elixir
      (clojure :variables
               clojure-enable-sayid t
               clojure-enable-clj-refactor t)
+     (spell-checking :variables spell-checking-enable-by-default nil)
+     (chinese :packages youdao-dictionary fcitx
+              :variables chinese-enable-fcitx nil
+              chinese-enable-youdao-dict t)
+     (osx :variables osx-dictionary-dictionary-choice "Simplified Chinese - English"
+          osx-command-as 'super)
+     restclient
+     (colors :variables colors-enable-nyan-cat-progress-bar t)
+     eww
      ;; ----------------------------------------------------------------
      ;; Example of useful layers you may want to use right away.
      ;; Uncomment some layer names and press <SPC f e R> (Vim style) or
@@ -354,7 +370,7 @@ It should only modify the values of Spacemacs settings."
 
    ;; If non-nil the frame is fullscreen when Emacs starts up. (default nil)
    ;; (Emacs 24.4+ only)
-   dotspacemacs-fullscreen-at-startup nil
+   dotspacemacs-fullscreen-at-startup t
 
    ;; If non-nil `spacemacs/toggle-fullscreen' will not use native fullscreen.
    ;; Use to disable fullscreen animations in OSX. (default nil)
@@ -363,7 +379,7 @@ It should only modify the values of Spacemacs settings."
    ;; If non-nil the frame is maximized when Emacs starts up.
    ;; Takes effect only if `dotspacemacs-fullscreen-at-startup' is nil.
    ;; (default nil) (Emacs 24.4+ only)
-   dotspacemacs-maximized-at-startup nil
+   dotspacemacs-maximized-at-startup t
 
    ;; A value from the range (0..100), in increasing opacity, which describes
    ;; the transparency level of a frame when it's active or selected.
@@ -501,6 +517,8 @@ If you are unsure, try setting them in `dotspacemacs/user-config' first."
   ;; prevent unnecessary warning at startup
   (setq-default
    exec-path-from-shell-check-startup-files nil)
+  (add-to-list 'configuration-layer-elpa-archives '("melpa-stable" . "stable.melpa.org/packages/"))
+  (add-to-list 'package-pinned-packages '(ensime . "melpa-stable"))
   )
 
 (defun dotspacemacs/user-load ()
@@ -554,7 +572,7 @@ before packages are loaded."
   ;; skips 'vendor' directories and sets GO15VENDOREXPERIMENT=1
   (setq flycheck-gometalinter-vendor t)
   ;; only show errors
-  (setq flycheck-gometalinter-errors-only t)
+  ;;(setq flycheck-gometalinter-errors-only t)
   ;; only run fast linters
   (setq flycheck-gometalinter-fast t)
   ;; use in tests files
@@ -568,8 +586,6 @@ before packages are loaded."
   (setq flycheck-gometalinter-deadline "30s")
 
   (setq go-format-before-save t)
-  (setq lsp-enable-flycheck t)
-  (remove-hook 'lsp-mode-hook 'lsp-ui-mode)
 
   (defun php-enable-codeigniter-coding-style ()
     "Makes php-mode use coding styles that are preferable for
@@ -590,7 +606,6 @@ before packages are loaded."
           c-indent-comments-syntactically-p t)
     )
   (add-hook 'java-mode-hook 'java-coding-style)
-  (add-hook 'java-mode-hook  (lambda () (lsp-ui-flycheck-enable t)))
 
   ;; rust layer - buffer local
   (setq rust-format-on-save t)
@@ -608,6 +623,11 @@ before packages are loaded."
 
   (setq clojure-enable-fancify-symbols t)
 
+  (setq ispell-program-name "hunspell")
+  (setq ispell-local-dictionary "en_US")
+
+  (global-hungry-delete-mode t)
+  (spacemacs/set-leader-keys "oy" 'youdao-dictionary-search-at-point+)
   )
 
 ;; Do not write anything past this comment. This is where Emacs will
@@ -640,7 +660,7 @@ This function is called at the very end of Spacemacs initialization."
  '(evil-want-Y-yank-to-eol nil)
  '(package-selected-packages
    (quote
-    (vimrc-mode dactyl-mode counsel-gtags sass-mode php-auto-yasnippets web-mode tagedit slim-mode scss-mode pug-mode less-css-mode helm-css-scss haml-mode emmet-mode yasnippet drupal-mode phpunit phpcbf php-extras php-mode ws-butler winum which-key volatile-highlights vi-tilde-fringe uuidgen use-package toc-org spaceline powerline restart-emacs request rainbow-delimiters popwin persp-mode pcre2el paradox spinner org-plus-contrib org-bullets open-junk-file neotree move-text macrostep lorem-ipsum linum-relative link-hint indent-guide hungry-delete hl-todo highlight-parentheses highlight-numbers parent-mode highlight-indentation helm-themes helm-swoop helm-projectile helm-mode-manager helm-make projectile pkg-info epl helm-flx helm-descbinds helm-ag google-translate golden-ratio flx-ido flx fill-column-indicator fancy-battery eyebrowse expand-region exec-path-from-shell evil-visualstar evil-visual-mark-mode evil-tutor evil-surround evil-search-highlight-persist evil-numbers evil-nerd-commenter evil-mc evil-matchit evil-lisp-state smartparens evil-indent-plus evil-iedit-state iedit evil-exchange evil-escape evil-ediff evil-args evil-anzu anzu evil goto-chg undo-tree eval-sexp-fu highlight elisp-slime-nav dumb-jump diminish define-word column-enforce-mode clean-aindent-mode bind-map bind-key auto-highlight-symbol auto-compile packed ace-link ace-jump-helm-line helm helm-core popup hydra evil-unimpaired async aggressive-indent adaptive-wrap ace-window))))
+    (realgud test-simple loc-changes load-relative company-plsense sass-mode php-auto-yasnippets web-mode tagedit slim-mode scss-mode pug-mode less-css-mode helm-css-scss haml-mode emmet-mode yasnippet drupal-mode phpunit phpcbf php-extras php-mode ws-butler winum which-key volatile-highlights vi-tilde-fringe uuidgen use-package toc-org spaceline powerline restart-emacs request rainbow-delimiters popwin persp-mode pcre2el paradox spinner org-plus-contrib org-bullets open-junk-file neotree move-text macrostep lorem-ipsum linum-relative link-hint indent-guide hungry-delete hl-todo highlight-parentheses highlight-numbers parent-mode highlight-indentation helm-themes helm-swoop helm-projectile helm-mode-manager helm-make projectile pkg-info epl helm-flx helm-descbinds helm-ag google-translate golden-ratio flx-ido flx fill-column-indicator fancy-battery eyebrowse expand-region exec-path-from-shell evil-visualstar evil-visual-mark-mode evil-tutor evil-surround evil-search-highlight-persist evil-numbers evil-nerd-commenter evil-mc evil-matchit evil-lisp-state smartparens evil-indent-plus evil-iedit-state iedit evil-exchange evil-escape evil-ediff evil-args evil-anzu anzu evil goto-chg undo-tree eval-sexp-fu highlight elisp-slime-nav dumb-jump diminish define-word column-enforce-mode clean-aindent-mode bind-map bind-key auto-highlight-symbol auto-compile packed ace-link ace-jump-helm-line helm helm-core popup hydra evil-unimpaired async aggressive-indent adaptive-wrap ace-window))))
 (custom-set-faces
  ;; custom-set-faces was added by Custom.
  ;; If you edit it by hand, you could mess it up, so be careful.
