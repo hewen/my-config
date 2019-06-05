@@ -97,7 +97,6 @@ This function should only modify configuration layer settings."
      java
      json
      graphviz
-     elixir
      (clojure :variables
               clojure-enable-sayid t
               clojure-enable-clj-refactor t)
@@ -109,7 +108,6 @@ This function should only modify configuration layer settings."
           osx-command-as 'super)
      restclient
      (colors :variables colors-enable-nyan-cat-progress-bar t)
-     eww
      ;; ----------------------------------------------------------------
      ;; Example of useful layers you may want to use right away.
      ;; Uncomment some layer names and press <SPC f e R> (Vim style) or
@@ -517,8 +515,6 @@ If you are unsure, try setting them in `dotspacemacs/user-config' first."
   ;; prevent unnecessary warning at startup
   (setq-default
    exec-path-from-shell-check-startup-files nil)
-  (add-to-list 'configuration-layer-elpa-archives '("melpa-stable" . "stable.melpa.org/packages/"))
-  (add-to-list 'package-pinned-packages '(ensime . "melpa-stable"))
   )
 
 (defun dotspacemacs/user-load ()
