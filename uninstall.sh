@@ -11,6 +11,4 @@ isLink $HOME/.zshrc
 isLink $HOME/.http_proxy.sh
 isLink $HOME/.emacs.d
 isLink $HOME/.spacemacs.d
-isLink $HOME/.tmux
-isLink $HOME/.tmux.conf
 isLink $HOME/.customrc
