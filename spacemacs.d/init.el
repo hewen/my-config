@@ -36,8 +36,7 @@ This function should only modify configuration layer settings."
    '(perl5
      vimscript
      (gtags :variables gtags-enable-by-default t)
-     (syntax-checking :variables syntax-checking-enable-by-default nil
-                      syntax-checking-enable-tooltips nil)
+     syntax-checking
      (auto-completion :variables
                       auto-completion-enable-snippets-in-popup t
                       ;; tab key to complete as much of common completion as possible
@@ -56,6 +55,7 @@ This function should only modify configuration layer settings."
      csv
      web-beautify
      lsp
+     dap
      nginx
      osx
      imenu-list
@@ -63,9 +63,6 @@ This function should only modify configuration layer settings."
                       version-control-diff-tool 'diff-hl
                       version-control-global-margin t)
      org
-     dash
-     (wakatime :variables
-               wakatime-api-key  "7a9f8000-3a09-479c-98f1-480e66b29e92")
      semantic
      epub
 
@@ -77,7 +74,11 @@ This function should only modify configuration layer settings."
      rust
      python
      (scala :variables scala-auto-start-ensime t)
-     (javascript :variables javascript-backend 'tern)
+     (javascript :variables
+                 javascript-backend 'lsp
+                 javascript-fmt-tool 'prettier
+                 )
+     react
      html
      yaml
      windows-scripts
@@ -87,20 +88,21 @@ This function should only modify configuration layer settings."
      php
      (go :variables
          gofmt-command "goimports"
-         go-use-gometalinter t
+         go-use-golangci-lint t
+         go-backend 'lsp
          )
      emacs-lisp
      (shell :variables
             shell-default-height 30
             shell-default-position 'bottom)
      shell-scripts
-     java
+     (java :variables java-backend 'lsp)
      json
      graphviz
      (clojure :variables
               clojure-enable-sayid t
               clojure-enable-clj-refactor t)
-     (spell-checking :variables spell-checking-enable-by-default nil)
+     (spell-checking :variables spell-checking-enable-by-default t)
      (chinese :packages youdao-dictionary fcitx
               :variables chinese-enable-fcitx nil
               chinese-enable-youdao-dict t)
@@ -566,20 +568,20 @@ before packages are loaded."
 
   ;;golang set
   ;; skips 'vendor' directories and sets GO15VENDOREXPERIMENT=1
-  (setq flycheck-gometalinter-vendor t)
+  (setq flycheck-golangci-lint-vendor t)
   ;; only show errors
-  ;;(setq flycheck-gometalinter-errors-only t)
+  ;;(setq flycheck-golangci-lint-errors-only t)
   ;; only run fast linters
-  (setq flycheck-gometalinter-fast t)
+  (setq flycheck-golangci-lint-fast t)
   ;; use in tests files
-  (setq flycheck-gometalinter-test t)
+  (setq flycheck-golangci-lint-test t)
   ;; disable linters
-  (setq flycheck-gometalinter-disable-linters '())
+  (setq flycheck-golangci-lint-disable-linters '())
   ;; Only enable selected linters
-  (setq flycheck-gometalinter-disable-all t)
-  (setq flycheck-gometalinter-enable-linters '("vet" "vetshadow" "deadcode" "gocyclo" "golint" "varcheck" "structcheck" "aligncheck" "errcheck" "megacheck" "dupl" "ineffassign" "interfacer" "unconvert" "goconst" "gas" "goimports" "gofmt" "misspell" "unparam" "safesql"))
+  (setq flycheck-golangci-lint-disable-all t)
+  (setq flycheck-golangci-lint-enable-linters '("deadcode" "errcheck" "gosimple" "govet" "ineffassign" "staticcheck" "structcheck" "typecheck" "unused" "varcheck"))
   ;; Set different deadline (default: 10s)
-  (setq flycheck-gometalinter-deadline "30s")
+  (setq flycheck-golangci-lint-deadline "1m")
 
   (setq go-format-before-save t)
 
@@ -656,7 +658,7 @@ This function is called at the very end of Spacemacs initialization."
  '(evil-want-Y-yank-to-eol nil)
  '(package-selected-packages
    (quote
-    (realgud test-simple loc-changes load-relative company-plsense sass-mode php-auto-yasnippets web-mode tagedit slim-mode scss-mode pug-mode less-css-mode helm-css-scss haml-mode emmet-mode yasnippet drupal-mode phpunit phpcbf php-extras php-mode ws-butler winum which-key volatile-highlights vi-tilde-fringe uuidgen use-package toc-org spaceline powerline restart-emacs request rainbow-delimiters popwin persp-mode pcre2el paradox spinner org-plus-contrib org-bullets open-junk-file neotree move-text macrostep lorem-ipsum linum-relative link-hint indent-guide hungry-delete hl-todo highlight-parentheses highlight-numbers parent-mode highlight-indentation helm-themes helm-swoop helm-projectile helm-mode-manager helm-make projectile pkg-info epl helm-flx helm-descbinds helm-ag google-translate golden-ratio flx-ido flx fill-column-indicator fancy-battery eyebrowse expand-region exec-path-from-shell evil-visualstar evil-visual-mark-mode evil-tutor evil-surround evil-search-highlight-persist evil-numbers evil-nerd-commenter evil-mc evil-matchit evil-lisp-state smartparens evil-indent-plus evil-iedit-state iedit evil-exchange evil-escape evil-ediff evil-args evil-anzu anzu evil goto-chg undo-tree eval-sexp-fu highlight elisp-slime-nav dumb-jump diminish define-word column-enforce-mode clean-aindent-mode bind-map bind-key auto-highlight-symbol auto-compile packed ace-link ace-jump-helm-line helm helm-core popup hydra evil-unimpaired async aggressive-indent adaptive-wrap ace-window))))
+    (lsp-javascript-typescript realgud test-simple loc-changes load-relative company-plsense sass-mode php-auto-yasnippets web-mode tagedit slim-mode scss-mode pug-mode less-css-mode helm-css-scss haml-mode emmet-mode yasnippet drupal-mode phpunit phpcbf php-extras php-mode ws-butler winum which-key volatile-highlights vi-tilde-fringe uuidgen use-package toc-org spaceline powerline restart-emacs request rainbow-delimiters popwin persp-mode pcre2el paradox spinner org-plus-contrib org-bullets open-junk-file neotree move-text macrostep lorem-ipsum linum-relative link-hint indent-guide hungry-delete hl-todo highlight-parentheses highlight-numbers parent-mode highlight-indentation helm-themes helm-swoop helm-projectile helm-mode-manager helm-make projectile pkg-info epl helm-flx helm-descbinds helm-ag google-translate golden-ratio flx-ido flx fill-column-indicator fancy-battery eyebrowse expand-region exec-path-from-shell evil-visualstar evil-visual-mark-mode evil-tutor evil-surround evil-search-highlight-persist evil-numbers evil-nerd-commenter evil-mc evil-matchit evil-lisp-state smartparens evil-indent-plus evil-iedit-state iedit evil-exchange evil-escape evil-ediff evil-args evil-anzu anzu evil goto-chg undo-tree eval-sexp-fu highlight elisp-slime-nav dumb-jump diminish define-word column-enforce-mode clean-aindent-mode bind-map bind-key auto-highlight-symbol auto-compile packed ace-link ace-jump-helm-line helm helm-core popup hydra evil-unimpaired async aggressive-indent adaptive-wrap ace-window))))
 (custom-set-faces
  ;; custom-set-faces was added by Custom.
  ;; If you edit it by hand, you could mess it up, so be careful.
