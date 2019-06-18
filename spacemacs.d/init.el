@@ -33,7 +33,8 @@ This function should only modify configuration layer settings."
 
    ;; List of configuration layers to load.
    dotspacemacs-configuration-layers
-   '(perl5
+   '(
+     perl5
      vimscript
      (gtags :variables gtags-enable-by-default t)
      syntax-checking
@@ -74,6 +75,7 @@ This function should only modify configuration layer settings."
      rust
      python
      (scala :variables scala-auto-start-ensime t)
+     (typescript :variables typescript-backend 'lsp)
      (javascript :variables
                  javascript-backend 'lsp
                  javascript-fmt-tool 'prettier
@@ -132,7 +134,6 @@ This function should only modify configuration layer settings."
                                       solidity-mode
                                       direnv
                                       persistent-scratch
-                                      add-node-modules-path
                                       )
 
    ;; A list of packages that cannot be updated.
@@ -608,17 +609,6 @@ before packages are loaded."
   ;; rust layer - buffer local
   (setq rust-format-on-save t)
 
-  ;;===== Node setup:
-  ;;  1. Careful of global ($npm -g install <module>) vs. local ./node-modules
-  ;;  2. Best to use local as conflicts between projects might occur
-  ;;  3. See inclusion of "add-node-modules-path" in dotspacemacs-additional-packages
-  ;;  4. https://melpa.org/#/add-node-modules-path
-  ;;
-  ;; stop default linter - use ESLint linter as part of FlyCheck
-  (setq js2-mode-show-parse-errors nil js2-mode-show-strict-warnings nil)
-  (eval-after-load 'js2-mode
-    '(add-hook 'js2-mode-hook #'add-node-modules-path))
-
   (setq clojure-enable-fancify-symbols t)
 
   (setq ispell-program-name "hunspell")
@@ -658,7 +648,7 @@ This function is called at the very end of Spacemacs initialization."
  '(evil-want-Y-yank-to-eol nil)
  '(package-selected-packages
    (quote
-    (lsp-javascript-typescript realgud test-simple loc-changes load-relative company-plsense sass-mode php-auto-yasnippets web-mode tagedit slim-mode scss-mode pug-mode less-css-mode helm-css-scss haml-mode emmet-mode yasnippet drupal-mode phpunit phpcbf php-extras php-mode ws-butler winum which-key volatile-highlights vi-tilde-fringe uuidgen use-package toc-org spaceline powerline restart-emacs request rainbow-delimiters popwin persp-mode pcre2el paradox spinner org-plus-contrib org-bullets open-junk-file neotree move-text macrostep lorem-ipsum linum-relative link-hint indent-guide hungry-delete hl-todo highlight-parentheses highlight-numbers parent-mode highlight-indentation helm-themes helm-swoop helm-projectile helm-mode-manager helm-make projectile pkg-info epl helm-flx helm-descbinds helm-ag google-translate golden-ratio flx-ido flx fill-column-indicator fancy-battery eyebrowse expand-region exec-path-from-shell evil-visualstar evil-visual-mark-mode evil-tutor evil-surround evil-search-highlight-persist evil-numbers evil-nerd-commenter evil-mc evil-matchit evil-lisp-state smartparens evil-indent-plus evil-iedit-state iedit evil-exchange evil-escape evil-ediff evil-args evil-anzu anzu evil goto-chg undo-tree eval-sexp-fu highlight elisp-slime-nav dumb-jump diminish define-word column-enforce-mode clean-aindent-mode bind-map bind-key auto-highlight-symbol auto-compile packed ace-link ace-jump-helm-line helm helm-core popup hydra evil-unimpaired async aggressive-indent adaptive-wrap ace-window))))
+    (tide typescript-mode import-js grizzl add-node-modules-path sass-mode php-auto-yasnippets web-mode tagedit slim-mode scss-mode pug-mode less-css-mode helm-css-scss haml-mode emmet-mode yasnippet drupal-mode phpunit phpcbf php-extras php-mode ws-butler winum which-key volatile-highlights vi-tilde-fringe uuidgen use-package toc-org spaceline powerline restart-emacs request rainbow-delimiters popwin persp-mode pcre2el paradox spinner org-plus-contrib org-bullets open-junk-file neotree move-text macrostep lorem-ipsum linum-relative link-hint indent-guide hungry-delete hl-todo highlight-parentheses highlight-numbers parent-mode highlight-indentation helm-themes helm-swoop helm-projectile helm-mode-manager helm-make projectile pkg-info epl helm-flx helm-descbinds helm-ag google-translate golden-ratio flx-ido flx fill-column-indicator fancy-battery eyebrowse expand-region exec-path-from-shell evil-visualstar evil-visual-mark-mode evil-tutor evil-surround evil-search-highlight-persist evil-numbers evil-nerd-commenter evil-mc evil-matchit evil-lisp-state smartparens evil-indent-plus evil-iedit-state iedit evil-exchange evil-escape evil-ediff evil-args evil-anzu anzu evil goto-chg undo-tree eval-sexp-fu highlight elisp-slime-nav dumb-jump diminish define-word column-enforce-mode clean-aindent-mode bind-map bind-key auto-highlight-symbol auto-compile packed ace-link ace-jump-helm-line helm helm-core popup hydra evil-unimpaired async aggressive-indent adaptive-wrap ace-window))))
 (custom-set-faces
  ;; custom-set-faces was added by Custom.
  ;; If you edit it by hand, you could mess it up, so be careful.
