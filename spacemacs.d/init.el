@@ -33,7 +33,15 @@ This function should only modify configuration layer settings."
 
    ;; List of configuration layers to load.
    dotspacemacs-configuration-layers
-   '(
+   '(octave
+     swift
+     kotlin
+     ivy
+     (dart :variables
+           dart-enable-analysis-server t
+           dart-format-on-save t
+           dart-backend 'lsp
+           )
      perl5
      vimscript
      (gtags :variables gtags-enable-by-default t)
@@ -65,15 +73,19 @@ This function should only modify configuration layer settings."
                       version-control-global-margin t)
      org
      semantic
-     epub
-
      lua
      (c-c++ :variables
             c-c++-enable-clang-support t
             c-c++-enable-clang-format-on-save t
             c-c++-enable-rtags-support t)
-     rust
-     python
+     (rust :variables
+           rust-backend 'racer
+           rust-rustfmt-switches nil
+           rust-format-on-save t)
+     (python :variables
+             python-formatter 'yapf
+             python-format-on-save t
+             )
      (scala :variables scala-auto-start-ensime t)
      (typescript :variables typescript-backend 'lsp)
      (javascript :variables
@@ -91,7 +103,7 @@ This function should only modify configuration layer settings."
      (go :variables
          gofmt-command "goimports"
          go-use-golangci-lint t
-         go-backend 'lsp
+         go-backend 'go-mode
          )
      emacs-lisp
      (shell :variables
@@ -134,6 +146,7 @@ This function should only modify configuration layer settings."
                                       solidity-mode
                                       direnv
                                       persistent-scratch
+                                      flutter
                                       )
 
    ;; A list of packages that cannot be updated.
@@ -401,7 +414,7 @@ It should only modify the values of Spacemacs settings."
    ;; If non-nil unicode symbols are displayed in the mode line.
    ;; If you use Emacs as a daemon and wants unicode characters only in GUI set
    ;; the value to quoted `display-graphic-p'. (default t)
-   dotspacemacs-mode-line-unicode-symbols t
+   dotspacemacs-mode-line-unicode-symbols nil
 
    ;; If non-nil smooth scrolling (native-scrolling) is enabled. Smooth
    ;; scrolling overrides the default behavior of Emacs which recenters point
@@ -429,12 +442,12 @@ It should only modify the values of Spacemacs settings."
 
    ;; If non-nil `smartparens-strict-mode' will be enabled in programming modes.
    ;; (default nil)
-   dotspacemacs-smartparens-strict-mode nil
+   dotspacemacs-smartparens-strict-mode t
 
    ;; If non-nil pressing the closing parenthesis `)' key in insert mode passes
    ;; over any automatically added closing parenthesis, bracket, quote, etc…
    ;; This can be temporary disabled by pressing `C-q' before `)'. (default nil)
-   dotspacemacs-smart-closing-parenthesis nil
+   dotspacemacs-smart-closing-parenthesis t
 
    ;; Select a scope to highlight delimiters. Possible values are `any',
    ;; `current', `all' or `nil'. Default is `all' (highlight any scope and
@@ -571,7 +584,7 @@ before packages are loaded."
   ;; skips 'vendor' directories and sets GO15VENDOREXPERIMENT=1
   (setq flycheck-golangci-lint-vendor t)
   ;; only show errors
-  ;;(setq flycheck-golangci-lint-errors-only t)
+  (setq flycheck-golangci-lint-errors-only t)
   ;; only run fast linters
   (setq flycheck-golangci-lint-fast t)
   ;; use in tests files
@@ -580,7 +593,7 @@ before packages are loaded."
   (setq flycheck-golangci-lint-disable-linters '())
   ;; Only enable selected linters
   (setq flycheck-golangci-lint-disable-all t)
-  (setq flycheck-golangci-lint-enable-linters '("deadcode" "errcheck" "gosimple" "govet" "ineffassign" "staticcheck" "structcheck" "typecheck" "unused" "varcheck"))
+  (setq flycheck-golangci-lint-enable-linters '("deadcode" "errcheck" "gosimple" "govet" "ineffassign" "staticcheck" "structcheck" "unused" "varcheck"))
   ;; Set different deadline (default: 10s)
   (setq flycheck-golangci-lint-deadline "1m")
 
@@ -606,9 +619,6 @@ before packages are loaded."
     )
   (add-hook 'java-mode-hook 'java-coding-style)
 
-  ;; rust layer - buffer local
-  (setq rust-format-on-save t)
-
   (setq clojure-enable-fancify-symbols t)
 
   (setq ispell-program-name "hunspell")
@@ -616,6 +626,10 @@ before packages are loaded."
 
   (global-hungry-delete-mode t)
   (spacemacs/set-leader-keys "oy" 'youdao-dictionary-search-at-point+)
+
+  (setq create-lockfiles nil)
+
+  (setq flycheck-idle-change-delay 2) ;; Set delay based on what suits you the best
   )
 
 ;; Do not write anything past this comment. This is where Emacs will
@@ -628,7 +642,7 @@ before packages are loaded."
  '(evil-want-Y-yank-to-eol nil)
  '(package-selected-packages
    (quote
-    (sass-mode php-auto-yasnippets web-mode tagedit slim-mode scss-mode pug-mode less-css-mode helm-css-scss haml-mode emmet-mode yasnippet drupal-mode phpunit phpcbf php-extras php-mode ws-butler winum which-key volatile-highlights vi-tilde-fringe uuidgen use-package toc-org spaceline powerline restart-emacs request rainbow-delimiters popwin persp-mode pcre2el paradox spinner org-plus-contrib org-bullets open-junk-file neotree move-text macrostep lorem-ipsum linum-relative link-hint indent-guide hungry-delete hl-todo highlight-parentheses highlight-numbers parent-mode highlight-indentation helm-themes helm-swoop helm-projectile helm-mode-manager helm-make projectile pkg-info epl helm-flx helm-descbinds helm-ag google-translate golden-ratio flx-ido flx fill-column-indicator fancy-battery eyebrowse expand-region exec-path-from-shell evil-visualstar evil-visual-mark-mode evil-tutor evil-surround evil-search-highlight-persist evil-numbers evil-nerd-commenter evil-mc evil-matchit evil-lisp-state smartparens evil-indent-plus evil-iedit-state iedit evil-exchange evil-escape evil-ediff evil-args evil-anzu anzu evil goto-chg undo-tree eval-sexp-fu highlight elisp-slime-nav dumb-jump diminish define-word column-enforce-mode clean-aindent-mode bind-map bind-key auto-highlight-symbol auto-compile packed ace-link ace-jump-helm-line helm helm-core popup hydra evil-unimpaired async aggressive-indent adaptive-wrap ace-window))))
+    (sass-mode php-auto-yasnippets web-mode tagedit slim-mode scss-mode pug-mode less-css-mode helm-css-scss haml-mode emmet-mode yasnippet drupal-mode phpunit phpcbf php-extras php-mode ws-butler winum which-key volatile-highlights vi-tilde-fringe uuidgen use-package toc-org spaceline powerline restart-emacs request rainbow-delimiters popwin persp-mode pcre2el paradox spinner org-plus-contrib org-bullets open-junk-file neotree move-text macrostep lorem-ipsum link-hint indent-guide hungry-delete hl-todo highlight-parentheses highlight-numbers parent-mode highlight-indentation helm-themes helm-swoop helm-projectile helm-mode-manager helm-make projectile pkg-info epl helm-flx helm-descbinds helm-ag google-translate golden-ratio flx-ido flx fill-column-indicator fancy-battery eyebrowse expand-region exec-path-from-shell evil-visualstar evil-visual-mark-mode evil-tutor evil-surround evil-search-highlight-persist evil-numbers evil-nerd-commenter evil-mc evil-matchit evil-lisp-state smartparens evil-indent-plus evil-iedit-state iedit evil-exchange evil-escape evil-ediff evil-args evil-anzu anzu evil goto-chg undo-tree eval-sexp-fu highlight elisp-slime-nav dumb-jump diminish define-word column-enforce-mode clean-aindent-mode bind-map bind-key auto-highlight-symbol auto-compile packed ace-link ace-jump-helm-line helm helm-core popup hydra evil-unimpaired async aggressive-indent adaptive-wrap ace-window))))
 (custom-set-faces
  ;; custom-set-faces was added by Custom.
  ;; If you edit it by hand, you could mess it up, so be careful.
@@ -648,7 +662,7 @@ This function is called at the very end of Spacemacs initialization."
  '(evil-want-Y-yank-to-eol nil)
  '(package-selected-packages
    (quote
-    (tide typescript-mode import-js grizzl add-node-modules-path sass-mode php-auto-yasnippets web-mode tagedit slim-mode scss-mode pug-mode less-css-mode helm-css-scss haml-mode emmet-mode yasnippet drupal-mode phpunit phpcbf php-extras php-mode ws-butler winum which-key volatile-highlights vi-tilde-fringe uuidgen use-package toc-org spaceline powerline restart-emacs request rainbow-delimiters popwin persp-mode pcre2el paradox spinner org-plus-contrib org-bullets open-junk-file neotree move-text macrostep lorem-ipsum linum-relative link-hint indent-guide hungry-delete hl-todo highlight-parentheses highlight-numbers parent-mode highlight-indentation helm-themes helm-swoop helm-projectile helm-mode-manager helm-make projectile pkg-info epl helm-flx helm-descbinds helm-ag google-translate golden-ratio flx-ido flx fill-column-indicator fancy-battery eyebrowse expand-region exec-path-from-shell evil-visualstar evil-visual-mark-mode evil-tutor evil-surround evil-search-highlight-persist evil-numbers evil-nerd-commenter evil-mc evil-matchit evil-lisp-state smartparens evil-indent-plus evil-iedit-state iedit evil-exchange evil-escape evil-ediff evil-args evil-anzu anzu evil goto-chg undo-tree eval-sexp-fu highlight elisp-slime-nav dumb-jump diminish define-word column-enforce-mode clean-aindent-mode bind-map bind-key auto-highlight-symbol auto-compile packed ace-link ace-jump-helm-line helm helm-core popup hydra evil-unimpaired async aggressive-indent adaptive-wrap ace-window))))
+    (utop tuareg caml ocp-indent ob-elixir flycheck-ocaml merlin flycheck-mix flycheck-credo emojify emoji-cheat-sheet-plus dune company-emoji auto-complete-rst alchemist elixir-mode sass-mode php-auto-yasnippets web-mode tagedit slim-mode scss-mode pug-mode less-css-mode helm-css-scss haml-mode emmet-mode yasnippet drupal-mode phpunit phpcbf php-extras php-mode ws-butler winum which-key volatile-highlights vi-tilde-fringe uuidgen use-package toc-org spaceline powerline restart-emacs request rainbow-delimiters popwin persp-mode pcre2el paradox spinner org-plus-contrib org-bullets open-junk-file neotree move-text macrostep lorem-ipsum link-hint indent-guide hungry-delete hl-todo highlight-parentheses highlight-numbers parent-mode highlight-indentation helm-themes helm-swoop helm-projectile helm-mode-manager helm-make projectile pkg-info epl helm-flx helm-descbinds helm-ag google-translate golden-ratio flx-ido flx fill-column-indicator fancy-battery eyebrowse expand-region exec-path-from-shell evil-visualstar evil-visual-mark-mode evil-tutor evil-surround evil-search-highlight-persist evil-numbers evil-nerd-commenter evil-mc evil-matchit evil-lisp-state smartparens evil-indent-plus evil-iedit-state iedit evil-exchange evil-escape evil-ediff evil-args evil-anzu anzu evil goto-chg undo-tree eval-sexp-fu highlight elisp-slime-nav dumb-jump diminish define-word column-enforce-mode clean-aindent-mode bind-map bind-key auto-highlight-symbol auto-compile packed ace-link ace-jump-helm-line helm helm-core popup hydra evil-unimpaired async aggressive-indent adaptive-wrap ace-window))))
 (custom-set-faces
  ;; custom-set-faces was added by Custom.
  ;; If you edit it by hand, you could mess it up, so be careful.

@@ -58,8 +58,6 @@ gitignore
 svn
 python
 ruby
-go
-golang
 docker
 zsh-completions
 zsh-syntax-highlighting
