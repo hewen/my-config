@@ -10,6 +10,8 @@ function proxy_on() {
     export HTTPS_PROXY=$http_proxy
     export FTP_PROXY=$http_proxy
     export RSYNC_PROXY=$http_proxy
+    export all_proxy=$http_proxy
+    export ALL_PROXY=$http_proxy
 }
 
 function proxy_off(){
@@ -21,5 +23,7 @@ function proxy_off(){
     unset HTTPS_PROXY
     unset FTP_PROXY
     unset RSYNC_PROXY
+    unset all_proxy
+    unset ALL_PROXY
     echo -e "Proxy environment variable removed."
 }
