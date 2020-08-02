@@ -34,17 +34,7 @@ This function should only modify configuration layer settings."
    ;; List of configuration layers to load.
    dotspacemacs-configuration-layers
    '(
-     octave
-     swift
-     kotlin
      ivy
-     (dart :variables
-           dart-enable-analysis-server t
-           dart-format-on-save t
-           dart-backend 'lsp
-           )
-     perl5
-     vimscript
      (gtags :variables gtags-enable-by-default t)
      syntax-checking
      (auto-completion :variables
@@ -74,6 +64,15 @@ This function should only modify configuration layer settings."
                       version-control-global-margin t)
      org
      semantic
+     octave
+     swift
+     kotlin
+     perl5
+     vimscript
+     (dart :variables
+           dart-backend 'lsp
+           lsp-enable-on-type-formatting t
+           )
      lua
      (c-c++ :variables
             c-c++-backend 'lsp-clangd
@@ -89,7 +88,6 @@ This function should only modify configuration layer settings."
              python-formatter 'yapf
              python-format-on-save t
              )
-     (scala :variables scala-auto-start-ensime t)
      (typescript :variables typescript-backend 'lsp)
      prettier
      import-js
@@ -120,7 +118,7 @@ This function should only modify configuration layer settings."
             shell-default-position 'bottom)
      shell-scripts
      (java :variables java-backend 'lsp)
-     json
+     (json :variables json-fmt-tool 'web-beautify)
      graphviz
      (clojure :variables
               clojure-enable-sayid t
@@ -157,6 +155,7 @@ This function should only modify configuration layer settings."
                                       persistent-scratch
                                       flutter
                                       format-all
+                                      lsp-dart
                                       )
 
    ;; A list of packages that cannot be updated.
