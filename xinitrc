@@ -25,7 +25,6 @@ xset s 0 7200
 xset dpms 7200 7200 7200
 xset -b
 xscreensaver >/dev/null 2>&1 &
-redshift -l 55.7:12.6 -t 5700:3600 -g 0.8 -m randr -v >/dev/null 2>&1  &
 
 case $2 in
     "fvwm")
@@ -48,6 +47,9 @@ case $2 in
         ;;
     "xfce")
         exec xfce4-session
+        ;;
+    "i3")
+        exec i3-wm
         ;;
     "dwm")
         while true

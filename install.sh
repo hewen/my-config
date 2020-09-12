@@ -37,8 +37,8 @@ createLink $CURRENT_DIR/zshrc $HOME/.zshrc
 createLink $CURRENT_DIR/customrc $HOME/.customrc
 createLink $CURRENT_DIR/http_proxy.sh $HOME/.http_proxy.sh
 
-createLink $CURRENT_DIR/spacemacs $HOME/.emacs.d
-createLink $CURRENT_DIR/spacemacs.d $HOME/.spacemacs.d
+createLink $CURRENT_DIR/doom-emacs $HOME/.emacs.d
+createLink $CURRENT_DIR/doom.d $HOME/.doom.d
 
 createLink $CURRENT_DIR/fonts $HOME/.fonts
 fc-cache -fv ~/.fonts
