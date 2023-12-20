@@ -62,15 +62,14 @@ docker
 zsh-completions
 zsh-syntax-highlighting
 git-flow-completion
-osx
 kubectl
 rust
-cargo
 zsh-autosuggestions
+nvm
+direnv
 )
 
 if [[ -w $ZSH ]]; then
-plugins+=zsh_reload
 [[ ! -d "$ZSH/cache" ]] && /bin/mkdir "$ZSH/cache"
 fi
 

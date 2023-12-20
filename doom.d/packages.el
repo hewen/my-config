@@ -50,3 +50,7 @@
 ;(unpin! t)
 
 (package! yasnippet-snippets)
+(package! protobuf-mode
+  :recipe (:host github :repo "protocolbuffers/protobuf"
+           :files ("editors/protobuf-mode.el")))
+(package! unicad)
