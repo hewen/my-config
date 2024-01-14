@@ -109,7 +109,7 @@
 
        :os
        (:if IS-MAC macos)  ; MacOS-specific commands
-       ;;tty               ; improve the terminal Emacs experience
+       tty               ; improve the terminal Emacs experience
 
        :lang
        ;;agda              ; types of types of types of types...
