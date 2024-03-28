@@ -71,3 +71,14 @@
             (lambda ()
               (add-hook 'after-save-hook 'gofmt nil 'make-it-local))))
 (unicad-mode 1)
+(setq visible-cursor t)
+
+;; https://discourse.doomemacs.org/t/why-is-emacs-doom-slow/83
+(add-to-list 'default-frame-alist '(inhibit-double-buffering . t))
+(setq company-idle-delay nil)
+;; https://emacs-lsp.github.io/lsp-mode/page/performance/#adjust-gc-cons-threshold
+(setq read-process-output-max (* 1024 1024)) ;; 1mb
+(setq gc-cons-threshold 100000000)
+(setq lsp-idle-delay 0.500)
+(setq lsp-log-io nil) ; if set to true can cause a performance hit
+(setq font-lock-maximum-decoration t)
