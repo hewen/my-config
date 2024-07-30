@@ -79,6 +79,64 @@
 ;; https://emacs-lsp.github.io/lsp-mode/page/performance/#adjust-gc-cons-threshold
 (setq read-process-output-max (* 1024 1024)) ;; 1mb
 (setq gc-cons-threshold 100000000)
-(setq lsp-idle-delay 0.500)
-(setq lsp-log-io nil) ; if set to true can cause a performance hit
 (setq font-lock-maximum-decoration t)
+
+(use-package! lsp-mode
+  :commands lsp
+  :config
+  (setq lsp-gopls-staticcheck t
+        lsp-prefer-flymake nil
+        lsp-log-io nil
+        lsp-idle-delay 0.500
+        lsp-gopls-complete-unimported nil
+        lsp-gopls-use-placeholders nil
+        lsp-gopls-watch-file-threshold 5000
+        read-process-output-max (* 1024 1024) ;; 1MB
+        gc-cons-threshold 100000000))
+
+(add-hook 'go-mode-hook #'lsp)
+
+(after! lsp-mode
+  (setq lsp-enable-file-watchers nil
+        lsp-file-watch-threshold 2000))
+
+(use-package! lsp-ui
+  :after lsp-mode
+  :config
+  (setq lsp-ui-doc-enable nil
+        lsp-ui-sideline-enable nil
+        lsp-ui-peek-enable nil
+        lsp-ui-doc-delay 2))
+
+(use-package! company
+  :config
+  (setq company-idle-delay 0.5
+        company-minimum-prefix-length 2
+        company-tooltip-align-annotations t
+        company-show-numbers t
+        company-dabbrev-downcase nil))
+
+(use-package! company-lsp
+  :commands company-lsp)
+
+(after! lsp-mode
+  (setq lsp-enable-file-watchers nil))
+(setq lsp-lens-enable nil)
+
+(use-package! projectile
+  :config
+  (setq projectile-enable-caching t
+        projectile-indexing-method 'alien
+        projectile-sort-order 'recentf)
+  (projectile-mode +1))
+
+(use-package! dired
+  :commands dired
+  :config
+  (setq dired-listing-switches "-alh"))
+
+(use-package! deadgrep
+  :commands deadgrep)
+
+(map! :leader
+      :desc "Search with deadgrep" "s g" #'deadgrep)

@@ -51,3 +51,6 @@
 
 (package! yasnippet-snippets)
 (package! unicad)
+(package! wakatime-mode)
+(package! projectile)
+(package! deadgrep)
