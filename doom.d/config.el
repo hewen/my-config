@@ -83,10 +83,15 @@
 
 (use-package! lsp-mode
   :commands lsp
+  :hook ((go-mode . lsp-deferred))
   :config
   (setq lsp-gopls-staticcheck t
         lsp-prefer-flymake nil
+        lsp-prefer-capf t
+        lsp-enable-symbol-highlighting nil
         lsp-log-io nil
+        lsp-enable-folding nil
+        lsp-enable-links nil
         lsp-idle-delay 0.500
         lsp-gopls-complete-unimported nil
         lsp-gopls-use-placeholders nil
