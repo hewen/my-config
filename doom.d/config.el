@@ -67,7 +67,8 @@
   (setq gofmt-command "goimports")
   (add-hook 'go-mode-hook
             (lambda ()
-              (add-hook 'after-save-hook 'gofmt nil 'make-it-local))))
+              (add-hook 'before-save-hook 'gofmt nil 'make-it-local))))
+
 (unicad-mode 1)
 (setq visible-cursor t)
 
@@ -143,3 +144,4 @@
 
 (map! :leader
       :desc "Search with deadgrep" "s g" #'deadgrep)
+
