@@ -67,7 +67,12 @@
   (setq gofmt-command "goimports")
   (add-hook 'go-mode-hook
             (lambda ()
-              (add-hook 'before-save-hook 'gofmt nil 'make-it-local))))
+              (add-hook 'before-save-hook 'gofmt nil 'make-it-local)))
+  ;; disable various functions of guru
+  (setq go-guru-hl-identifier-mode nil
+        go-guru-define-function nil
+        go-guru-implementations-function nil
+        go-guru-referrers-function nil))
 
 (unicad-mode 1)
 (setq visible-cursor t)
