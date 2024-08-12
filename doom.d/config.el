@@ -91,7 +91,7 @@
   :config
   (setq lsp-gopls-staticcheck t
         lsp-prefer-flymake nil
-        lsp-prefer-capf t
+        lsp-completion-provider :capf
         lsp-enable-symbol-highlighting nil
         lsp-log-io nil
         lsp-enable-folding nil
@@ -122,7 +122,7 @@
   (setq company-idle-delay 0.5
         company-minimum-prefix-length 2
         company-tooltip-align-annotations t
-        company-show-numbers t
+        company-show-quick-access t
         company-dabbrev-downcase nil))
 
 (use-package! company-lsp
