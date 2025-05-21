@@ -79,7 +79,6 @@
 
 ;; https://discourse.doomemacs.org/t/why-is-emacs-doom-slow/83
 (add-to-list 'default-frame-alist '(inhibit-double-buffering . t))
-(setq company-idle-delay nil)
 ;; https://emacs-lsp.github.io/lsp-mode/page/performance/#adjust-gc-cons-threshold
 (setq read-process-output-max (* 1024 1024)) ;; 1mb
 (setq gc-cons-threshold 100000000)
@@ -116,17 +115,6 @@
         lsp-ui-sideline-enable nil
         lsp-ui-peek-enable nil
         lsp-ui-doc-delay 2))
-
-(use-package! company
-  :config
-  (setq company-idle-delay 0.5
-        company-minimum-prefix-length 2
-        company-tooltip-align-annotations t
-        company-show-quick-access t
-        company-dabbrev-downcase nil))
-
-(use-package! company-lsp
-  :commands company-lsp)
 
 (after! lsp-mode
   (setq lsp-enable-file-watchers nil))
