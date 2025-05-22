@@ -143,3 +143,5 @@
 (setq default-buffer-file-coding-system 'utf-8)
 (setq coding-system-for-read 'utf-8)
 (setq coding-system-for-write 'utf-8)
+
+(setq lsp-semgrep-languages nil)
